@@ -10,7 +10,6 @@ void hint(string question, string a, string b, string c, string d, string cor, s
     if (an == "Ask")
     {
         cout << "\t\tAsk the Audience\n"<<endl;
-        
         int clv= rand()%100 , av = ((rand()%100)-clv) , bv = ((rand()%100)-clv) , cv = ((rand()%100)-clv) , dv = ((rand()%100)-clv);
         if(clv < av || clv < bv || clv < cv || clv < dv)
         {
