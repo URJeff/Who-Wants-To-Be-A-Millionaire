@@ -7,43 +7,41 @@ using namespace std;
 void hint(string question, string a, string b, string c, string d, string cor, string an)
 {
     srand(time(NULL));
-    if (an == "Ask")
+    if (an == "Ask" || an == "ASK")
     {
-        cout << "\t\tAsk the Audience\n"<<endl;
-        int clv= rand()%100 , av = ((rand()%100)-clv) , bv = ((rand()%100)-clv) , cv = ((rand()%100)-clv) , dv = ((rand()%100)-clv);
-        if(clv < av || clv < bv || clv < cv || clv < dv)
+        cout << "\t\tAsk the Audience\n" << endl;
+        int av=0,bv=0,cv=0,dv=0, clv = rand()%(99-50+1)+50 , rw = rand()%((100-clv)+1) , rw1=rand()%(((100-clv)-rw)+1) , rw2 = 100-clv-rw-rw1;
+        if (a == "" || b == "" || c == "" || d == "")
         {
-            do
-            {
-                clv+=clv%100;
-            }while(clv < av || clv < bv || clv < cv || clv < dv);
+            rw2 = 0;
+            rw1 = 0;
+            rw = 100 - clv; 
         }
-        if (clv > 100)
-            clv = 99;
-        if (a == "")
-            av = 0;
-        else if(cor != a && av < 0)
-            av *= -1;
-        else if (cor == a)
+        if (cor == a)
+        {
             av = clv;
-        if (b == "")
-            bv = 0;
-        else if (cor != b && bv < 0)
-            bv *= -1;
-        else if (cor == b)
+            bv = rw;
+            cv = rw1;
+            dv = rw2;
+        }else if (cor == b)
+        {
+            av = rw;
             bv = clv;
-        if (c == "")
-            cv = 0;
-        else if (cor != c && cv < 0)
-            cv *= -1;
-        else if (cor == c)
+            cv = rw1;
+            dv = rw2;
+        }else if (cor == c)
+        {
+            av = rw1;
+            bv = rw;
             cv = clv;
-        if (d == "")
-            dv = 0;
-        else if (cor != d && dv < 0)
-            dv *= -1;
-        else if (cor == d)
-            av = clv;
+            dv = rw2;
+        }else if (cor == d)
+        {
+            av = rw2;
+            bv = rw;
+            cv = rw1;
+            dv = clv;
+        }   
         for(int i = 0; i <= av; i++)
         {
             if(i==0)
@@ -76,12 +74,11 @@ void hint(string question, string a, string b, string c, string d, string cor, s
                 break;
             cout <<char(219);
         }
-        
     }else if (an == "Call")
     {
         cout << "\n\t\tCall A Friend\n\n\tWho do you want to call?\n>";
         string name;
-        cin.ignore();
+        cin >> ws;
         getline(cin, name);
         string dialoge = "\n" + name + ": Hello?\nYou: Hey " + name + " I have a question I want to ask you, do you think you can help?\n" + name + ": How should I know? You have to tell me the question first!\n The question is:\n\t" + question + "\n" + a + " \n" + b + "\n" + c + "\n" + d + "\n\nYou: What do you think?\n" + name + ": Hmmm let me think.\n";
         cout << "Calling " << name;
@@ -96,12 +93,32 @@ void hint(string question, string a, string b, string c, string d, string cor, s
             Sleep(20);
         }
         cout <<endl;
-        if(ran == 0)
+        if (ran == 0 && a == "")
+        {
+            dialoge = name + ": I'm sorry but I don't know the answer.";
+            r = 4;
+        }
+        else if(ran == 0)
             dialoge = name + ": I think it's the a: " + a + "\nYou: Are you sure?\n";
+        else if (ran == 1 && b == "")
+        {
+            dialoge = name + ": I'm sorry but I don't know the answer.";
+            r = 4;
+        }
         else if (ran == 1)
             dialoge = name + ": I think it's the b: " + b + "\nYou: How confident are you about your answer?\n";
+        else if (ran == 2 && c == "")
+        {
+            dialoge = name + ": I'm sorry but I don't know the answer.";
+            r = 4;
+        }
         else if (ran == 2)
             dialoge = name + ": I think it's the c: " + c + "\nYou: Are you Having Doubts?\n";
+        else if (ran == 3 && d == "")
+        {
+            dialoge = name + ": I'm sorry but I don't know the answer.";
+            r = 4;
+        }
         else if(ran == 3)
             dialoge = name + ": I think it's the d: " + d + "\nYou: Do you know that\n";
         for(int i=0;i<dialoge.length();i++)
@@ -109,18 +126,20 @@ void hint(string question, string a, string b, string c, string d, string cor, s
             Sleep(20);
         }
         if(r == 0)
-            dialoge = name + ": I'm 100% sure that's the answer\nYou: Wow ok, I'll choice that one then! Thank's a lot" + name + " byeee!"; 
+            dialoge = name + ": I'm 100% sure that's the answer\nYou: Wow ok, I'll choice that one then! Thank's a lot " + name + " byeee!"; 
         else if (r == 1)
-            dialoge = name + ": I pretty sure this is the answer\nYou: Ok, Thank's" + name;
+            dialoge = name + ": I'm pretty sure this is the answer\nYou: Ok, Thank's" + name;
         else if (r == 2)
             dialoge = name + ": I'm not so sure, but I believe this is the answer\nYou: Ok... thank's I guess...";
         else if(r == 3)
-            dialoge = name + ": I don't know for sure, but if you win you'll give me a 10%\nYou: Lower it down to 5% and I'll make it happen, HAHAHA\n" + name + ": YOU LITTLE SH...";
+            dialoge = name + ": I don't know for sure";
+        else
+            dialoge = "\nYou: It's ok! Thanks for your help!";
         for(int i=0;i<dialoge.length();i++)
         {   cout << dialoge[i];
             Sleep(20);
         }
-        cout << "\n--------------------------------------------------------------\n\t\tThe Call Has Ended\n--------------------------------------------------------------" << "Producer: What a nice person!"<<endl;
+        cout << "\n--------------------------------------------------------------\n\t\tThe Call Has Ended\n--------------------------------------------------------------" << endl;
     }
     cout<<endl<<endl;
     system("pause");
@@ -134,8 +153,9 @@ int selection(string question, string a, string b, string c, string d, string co
     do
     {
         cout << "\t\tQuestion "<< (me/1000)+1 << "\n\t" << question << "\t\t\tBank Account: " << me << "$\n\n\ta. " << a << "\t\t\t b. " << b << endl << "\tc. " << c << "\t\t\t d. " << d << endl << endl << "\t50/50 \t 'Call' a friend\t\t 'Ask' for help from the Audience\n>";
-        cin >> choice;
-        if (choice >= "a" && choice <="d")
+        cin >> ws;
+        getline(cin,choice);
+        if (choice >= "a" && choice <="d" && choice.length() == 1)
         {
             if (choice == cl)
             {
@@ -292,6 +312,141 @@ int selection(string question, string a, string b, string c, string d, string co
     return me;
 }
 
+void song(int x)
+{
+    if (x == 0)
+    {
+        Sleep(1000);
+        Beep(370 , 465);
+        Beep(370 , 232);
+        Beep(554 , 232);
+        Beep(494 , 465);
+        Beep(440 , 465);
+        Beep(415 , 465);
+        Beep(415 , 232);
+        Beep(415 , 232);
+        Beep(494 , 465);
+        Beep(440 , 232);
+        Beep(415 , 232);
+        Beep(370 , 465);
+        Beep(370 , 232);
+        Beep(880 , 232);
+        Beep(831 , 232);
+        Beep(880 , 232);
+        Beep(831 , 232);
+        Beep(880 , 232);
+        Beep(370 , 465);
+    }else if (x == 1)
+    {
+        Beep (330,100);Sleep(100);
+        Beep (330,100);Sleep(300);
+        Beep (330,100);Sleep(300);
+        Beep (262,100);Sleep(100);
+        Beep (330,100);Sleep(300);
+        Beep (392,100);Sleep(700);
+        Beep (196,100);Sleep(700);
+        Beep (262,300);Sleep(300);
+        Beep (196,300);Sleep(300);
+        Beep (164,300);Sleep(300);
+        Beep (220,300);Sleep(100);
+        Beep (246,100);Sleep(300);
+        Beep (233,200);
+        Beep (220,100);Sleep(300);
+        Beep (196,100);Sleep(150);
+        Beep (330,100);Sleep(150);
+        Beep (392,100);Sleep(150);
+        Beep (440,100);Sleep(300);
+        Beep (349,100);Sleep(100);
+        Beep (392,100);Sleep(300);
+        Beep (330,100);Sleep(300);
+        Beep (262,100);Sleep(100);
+        Beep (294,100);Sleep(100);
+        Beep (247,100);Sleep(500);
+        Beep (262,300);Sleep(300);
+        Beep (196,300);Sleep(300);
+        Beep (164,300);Sleep(300);
+        Beep (220,300);Sleep(100);
+        Beep (246,100);Sleep(300);
+        Beep (233,200);
+        Beep (220,100);Sleep(300);
+        Beep (196,100);Sleep(150);
+        Beep (330,100);Sleep(150);
+        Beep (392,100);Sleep(150);
+        Beep (440,100);Sleep(300);
+        Beep (349,100);Sleep(100);
+        Beep (392,100);Sleep(300);
+        Beep (330,100);Sleep(300);
+        Beep (262,100);Sleep(100);
+        Beep (294,100);Sleep(100);
+        Beep (247,100);Sleep(900);
+        Beep (392,100);Sleep(100);
+        Beep (370,100);Sleep(100);
+        Beep (349,100);Sleep(100);
+        Beep (311,100);Sleep(300);
+        Beep (330,100);Sleep(300);
+        Beep (207,100);Sleep(100);
+        Beep (220,100);Sleep(100);
+        Beep (262,100);Sleep(300);
+        Beep (220,100);Sleep(100);
+        Beep (262,100);Sleep(100);
+        Beep (294,100);Sleep(500);
+        Beep (392,100);Sleep(100);
+        Beep (370,100);Sleep(100);
+        Beep (349,100);Sleep(100);
+        Beep (311,100);Sleep(300);
+        Beep (330,100);Sleep(300);
+        Beep (523,100);Sleep(300);
+        Beep (523,100);Sleep(100);
+        Beep (523,100);Sleep(1100);
+        Beep (392,100);Sleep(100);
+        Beep (370,100);Sleep(100);
+        Beep (349,100);Sleep(100);
+        Beep (311,100);Sleep(300);
+        Beep (330,100);Sleep(300);
+        Beep (207,100);Sleep(100);
+        Beep (220,100);Sleep(100);
+        Beep (262,100);Sleep(300);
+        Beep (220,100);Sleep(100);
+        Beep (262,100);Sleep(100);
+        Beep (294,100);Sleep(500);
+        Beep (311,300);Sleep(300);
+        Beep (296,300);Sleep(300);
+        Beep (262,300);Sleep(1300);
+        Beep (262,100);Sleep(100);
+        Beep (262,100);Sleep(300);
+        Beep (262,100);Sleep(300);
+        Beep (262,100);Sleep(100);
+        Beep (294,100);Sleep(300);
+        Beep (330,200);Sleep(50);
+        Beep (262,200);Sleep(50);
+        Beep (220,200);Sleep(50);
+        Beep (196,100);Sleep(700);
+        Beep (262,100);Sleep(100);
+        Beep (262,100);Sleep(300);
+        Beep (262,100);Sleep(300);
+        Beep (262,100);Sleep(100);
+        Beep (294,100);Sleep(100);
+        Beep (330,100);Sleep(700);
+        Beep (440,100);Sleep(300);
+        Beep (392,100);Sleep(500);
+        Beep (262,100);Sleep(100);
+        Beep (262,100);Sleep(300);
+        Beep (262,100);Sleep(300);
+        Beep (262,100);Sleep(100);
+        Beep (294,100);Sleep(300);
+        Beep (330,200);Sleep(50);
+        Beep (262,200);Sleep(50);
+        Beep (220,200);Sleep(50);
+        Beep (196,100);Sleep(700);
+        Beep (330,100);Sleep(100); // intro begin :)
+        Beep (330,100);Sleep(300);
+        Beep (330,100);Sleep(300);
+        Beep (262,100);Sleep(100);
+        Beep (330,100);Sleep(300);
+        Beep (392,100);Sleep(700);
+        Beep (196,100);Sleep(700); //intro end :)
+    }
+}   //135 lines
 void play()
 {
     int money_earned=0;
@@ -416,11 +571,14 @@ void play()
         cout << "\n\n----------------------------------------------------------------------------------------------------\n\n\t\t\tCongrats!!!! You have won " << money_earned << "$ dollars.\n\n----------------------------------------------------------------------------------------------------" <<endl;
         Sleep(2000);
     }else return;
+    int n=1;
+    song(n);
 }
 
 int main()
 {
     string x="";
+    
     do
     {
         system("CLS");
@@ -433,6 +591,8 @@ int main()
         }else if (x=="2" || x=="help" || x=="HELP")
         {
             cout << "\n  There will be 15 questions that you have to answer with 'a','b','c', or 'd' and for each correct answer\n you will earn a thousand dollars untill you have a million\n-------------------------------------------------------------------------------------------------------------" <<endl;
+            int n=0;
+            song(n);
             system("pause");
         }
     }while (x!="3");
