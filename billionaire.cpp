@@ -74,7 +74,7 @@ void hint(string question, string a, string b, string c, string d, string cor, s
                 break;
             cout <<char(219);
         }
-    }else if (an == "Call")
+    }else if (an == "Call" || an == "CALL")
     {
         cout << "\n\t\tCall A Friend\n\n\tWho do you want to call?\n>";
         string name;
